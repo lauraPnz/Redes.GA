@@ -9,7 +9,7 @@ O projeto foi desenvolvido para cumprir os seguintes requisitos principais da av
 | Requisito | Detalhe da Implementação |
 | :--- | :--- |
 | **Protocolo** | Uso obrigatório do protocolo **UDP** (User Datagram Protocol). |
-| **Confiabilidade** | Implementação de um Protocolo de Transferência Confiável (**RDT**) customizado sobre UDP para garantir a entrega de metadados e fragmentos de arquivos. |
+| **Confiabilidade** | Implementação de um Protocolo de Transferência Confiável, customizado sobre UDP para garantir a entrega de metadados e fragmentos de arquivos. |
 | **Estrutura** | Rede P2P estática com 4 nodos, onde cada um atua como Cliente e Servidor. |
 | **Sincronização** | Suporte dinâmico para adição/remoção de arquivos, usando **Tombstones** para propagar exclusões. |
 | **Hashing** | Utiliza **SHA-256** para verificação de integridade e resolução de conflitos (`need_download`). |
