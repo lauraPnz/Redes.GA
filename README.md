@@ -61,8 +61,8 @@ O projeto foi desenvolvido para cumprir os seguintes requisitos principais da av
 * Lê o arquivo de configuração JSON, inicializa o NodeState, e, crucialmente, inicia o Servidor UDP e o Cliente (sync_loop) em threads separadas, permitindo que o nó escute e envie requisições ao mesmo tempo.
 
 ## servidor.py 
-Função: Atua como o lado Servidor do peer, escutando a rede.
-* Recebe datagramas UDP de outros peers, processa o comando (ex: INDEX_REQ, FILE_REQ) e envia a resposta. Contém a lógica de envio de arquivos via RDT (Protocolo de Transferência Confiável), que divide e reenvia chunks de dados.
+* Atua como o lado Servidor do peer, escutando a rede.
+* Recebe datagramas UDP de outros peers, processa e envia a resposta. Contém a lógica de envio de arquivos, que divide e reenvia chunks de dados.
 
 ## cliente.py 
  * Atua como o lado Cliente do peer, iniciando a comunicação.
@@ -70,7 +70,7 @@ Função: Atua como o lado Servidor do peer, escutando a rede.
 
 ## status_node.py 
 * Gerencia o estado local, os metadados e as regras de sincronização.
-* Contém a classe NodeState, que monitora o diretório local, armazena o índice de arquivos (.p2pmeta.json), gera os payloads de índice e tombstones e contém a lógica crítica para decidir se um arquivo precisa ser baixado (need_download).
+* Contém a classe NodeState, que monitora o diretório local, armazena o índice de arquivos (.p2pmeta.json), gera os índices e tombstones e contém a lógica crítica para decidir se um arquivo precisa ser baixado (need_download).
 
 ## utilidades.py (A Caixa de Ferramentas)
 * Fornece funções de baixo nível para manipulação segura de dados e arquivos.
