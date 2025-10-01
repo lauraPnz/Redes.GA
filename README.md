@@ -55,3 +55,23 @@ O projeto foi desenvolvido para cumprir os seguintes requisitos principais da av
     -   **Segmentação:** Arquivos são divididos em pequenos pacotes (`chunks`) para transmissão.
     -   **Confirmação e Retransmissão:** Cada `chunk` enviado exige uma confirmação (`ACK`) do receptor. Se o `ACK` não chegar dentro de um tempo limite (timeout), o `chunk` é reenviado.
 -   **Suporte a Múltiplos Ambientes:** O sistema pode ser executado e testado tanto em ambiente **local** (localhost) quanto em um ambiente de **containers com Docker**, simulando uma rede real.
+
+## main.py 
+* Função: Inicia e gerencia o ciclo de vida do nó (peer).
+* Lê o arquivo de configuração JSON, inicializa o NodeState, e, crucialmente, inicia o Servidor UDP e o Cliente (sync_loop) em threads separadas, permitindo que o nó escute e envie requisições ao mesmo tempo.
+
+## servidor.py 
+Função: Atua como o lado Servidor do peer, escutando a rede.
+* Recebe datagramas UDP de outros peers, processa o comando (ex: INDEX_REQ, FILE_REQ) e envia a resposta. Contém a lógica de envio de arquivos via RDT (Protocolo de Transferência Confiável), que divide e reenvia chunks de dados.
+
+## cliente.py 
+ * Atua como o lado Cliente do peer, iniciando a comunicação.
+ * Contém o sync_loop que executa o ciclo de sincronização a cada 5 segundos. Ele usa a função udp_request para enviar comandos (requerindo metadados ou arquivos) e implementa a lógica de timeout e retransmissão para garantir a entrega das requisições via UDP.
+
+## status_node.py 
+* Gerencia o estado local, os metadados e as regras de sincronização.
+* Contém a classe NodeState, que monitora o diretório local, armazena o índice de arquivos (.p2pmeta.json), gera os payloads de índice e tombstones e contém a lógica crítica para decidir se um arquivo precisa ser baixado (need_download).
+
+## utilidades.py (A Caixa de Ferramentas)
+* Fornece funções de baixo nível para manipulação segura de dados e arquivos.
+* Contém funções essenciais como cálculo do hash SHA-256 (para verificar integridade dos arquivos), leitura/escrita segura de arquivos JSON (read_json, write_json), e garantia de segurança de diretório (safe_join).
